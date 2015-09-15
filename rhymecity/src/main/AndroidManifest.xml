@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.fly.bmark2">
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_GPS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
+
+    <permission
+        android:name="package.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <!-- Tell the system this app requires OpenGL ES 2.0. -->
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <!-- rear facing cam -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <!-- users location -->
+    <uses-feature
+        android:name="android.hardware.location"
+        android:required="true" />
+
+    <!-- accelerometer -->
+    <uses-feature
+        android:name="android.hardware.sensor.accelerometer"
+        android:required="true" />
+
+    <!-- compass -->
+    <uses-feature
+        android:name="android.hardware.sensor.compass"/>
+
+    <application
+        android:name="com.trnql.zen.core.AppData"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Theme1"
+        android:allowBackup="true"
+       >
+<!--  android:name="com.fly.firefly.ui.activity.MainActivity"-  tools:replace="android:name"-->
+        <activity
+            android:name="com.fly.bmark2.ui.activity.SearchActivity"
+            android:label="@string/app_name">
+
+        </activity>
+
+        <activity
+            android:name="com.fly.bmark2.ui.activity.Homepage.HomeActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name="com.fly.bmark2.ui.activity.ContactusLocationView"/>
+        <activity android:name="com.fly.bmark2.augmented3.MainActivity"/>
+        <activity android:name="com.fly.bmark2.augmented3.MainSamplesListActivity"/>
+        <activity android:name="com.fly.bmark2.augmented3.SampleCamActivity"/>
+
+
+
+        <activity android:name="com.fly.bmark2.ui.activity.Register.RegisterActivity"/>
+        <activity android:name="com.fly.bmark2.ui.activity.BookingFlight.SearchFlightActivity"/>
+        <activity android:name="com.fly.bmark2.ui.activity.BookingFlight.FlightDetailActivity"/>
+        <activity android:name="com.fly.bmark2.ui.activity.BookingFlight.PersonalDetailActivity"/>
+        <activity android:name="com.fly.bmark2.ui.activity.BookingFlight.SeatSelectionActivity"/>
+        <activity android:name="com.fly.bmark2.ui.activity.BookingFlight.PaymentFlightActivity"/>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyB0QRtXyjzYCW0PhkHnAkVr_pifTVuphKg" />
+
+        <service
+            android:name="com.trnql.smart.location.SmartLocationService"
+            android:label="TRNQL_SDK - SmartLocation Service" />
+        <service
+            android:name="com.trnql.smart.activity.SmartActivityService"
+            android:label="TRNQL_SDK - SmartActivity Service" />
+        <service
+            android:name="com.trnql.smart.activity.ActivityRecognitionIntentService"
+            android:label="TRNQL_SDK - SmartActivity Intent Service for GMS" />
+        <service
+            android:name="com.trnql.smart.weather.SmartWeatherIntentService"
+            android:label="TRNQL_SDK - SmartWeather Intent Service" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+    </application>
+
+</manifest>

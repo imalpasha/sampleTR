@@ -1,0 +1,29 @@
+<resources>
+
+
+    <style name="Theme1" parent="@style/Theme.Sherlock.Light">
+        <item name="android:actionBarStyle">@style/Theme1.ActionBar</item>
+        <item name="homeAsUpIndicator">@drawable/vrsm__ic_back</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="Theme1.ActionBar" parent="@style/Widget.Sherlock.Light.ActionBar.Solid">
+        <item name="android:background">@color/actionBarColour_default_theme</item>
+    </style>
+
+    <!-- Base application theme. -->
+    <style name="BaseAppTheme" parent="@style/Theme.Sherlock.Light">
+
+       <!-- <item name="colorPrimary">@color/primary_green</item>
+        <item name="colorPrimaryDark">@color/dark_green</item>
+
+        <item name="colorControlNormal">@color/dark_gray</item>
+        <item name="colorControlActivated">@color/dark_green</item>
+        <item name="colorControlHighlight">@color/dark_green</item>-->
+
+    </style>
+
+    <style name="AppTheme" parent="@style/BaseAppTheme"/>
+
+</resources>
