@@ -1,6 +1,8 @@
 package com.fly.bmark2;
 
-import android.app.ActionBar;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
@@ -25,6 +27,7 @@ public class MainFragmentActivity extends BaseFragmentActivity implements Naviga
      * navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
+    public static SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -41,38 +44,33 @@ public class MainFragmentActivity extends BaseFragmentActivity implements Naviga
         mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 
-       //FragmentManager fragmentManager = getSupportFragmentManager();
-       //fragmentManager.beginTransaction().replace(R.id.tab_container, TabButtomFragment.newInstance()).commit();
+        /*Create Table - Generate dummy data - nearest location*/
+        db = openOrCreateDatabase("GeoLocation", Context.MODE_PRIVATE, null);
+        db.execSQL("CREATE TABLE IF NOT EXISTS latlong(latlongitude double,refId varchar);");
 
+        db.execSQL("DELETE FROM latlong");
 
-        // Inflate the "decor.xml"
-       /* LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        DrawerLayout drawer = (DrawerLayout) inflater.inflate(R.layout.decor, null); // "null" is important.
+        for(int x = 0 ; x< 15 ; x++)
+        {
+            String passLatitude = "2.9243503";
+            String passLongitude = "101.6559618";
 
-        // HACK: "steal" the first child of decor view
-        ViewGroup decor = (ViewGroup) getWindow().getDecorView();
-        View child = decor.getChildAt(0);
-       //
-        decor.removeView(child);
-        FrameLayout container = (FrameLayout) drawer.findViewById(R.id.main_activity_fragment_container); // This is the container we defined just now.
-        container.addView(child);
+            Double randLatitude = Double.parseDouble(passLatitude) + Math.random()/5-0.1;
+            Double randLongitude =  Double.parseDouble(passLongitude) + Math.random()/5-0.1;
 
-        // Make the drawer replace the first child
-        decor.addView(drawer);
-*/
-        // Do what you want to do.......
-
-
-       // FragmentManager fragmentManager = getSupportFragmentManager();
-       // fragmentManager.beginTransaction().replace(R.id.main_activity_fragment_container, MainFragment.newInstance()).commit();
-
-        //if (savedInstanceState == null) {
-        //    goToSearchFragment();
-        //}
-
+            insertRecord(Double.toString(randLatitude)+","+Double.toString(randLongitude),Integer.toString(x+1));
+        }
 
     }
 
+    public void insertRecord(String latlong,String refId) {
+
+        ContentValues values = new ContentValues();
+
+        values.put("latlongitude", latlong);
+        values.put("refId", refId);
+        db.insert("latlong", null, values);
+    }
 
     @Override
     protected void onDestroy()
@@ -105,110 +103,8 @@ public class MainFragmentActivity extends BaseFragmentActivity implements Naviga
     }
 
     @Override
-    public void onNavigationDrawerItemSelected(int position, DrawerItem item)
-    {
-        // update the main content by replacing fragments
-        /*try
-        {
-            if (item.getTag().equals("Gallery"))
-            {
-                Intent gallery = new Intent(this, GalleryView.class);
-                gallery.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(gallery);
-            }
-            else if (item.getTag().equals("PROFILE"))
-            {
-                Intent sbb = new Intent(this, MyProfileView.class);
-                sbb.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(sbb);
-            }
-            else if (item.getTag().equals("Home"))
-            {
-                Intent sbb = new Intent(this, PromotionsLandingView.class);
-                sbb.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(sbb);
-            }
-            else if (item.getTag().equals("SBB"))
-            {
-                Intent sbb = new Intent(this, ShopByBrandView.class);
-                sbb.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(sbb);
-            }
-            else if (item.getTag().equals("Newsletter"))
-            {
-                Intent newsletter = new Intent(this, NewsletterView.class);
-                newsletter.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                newsletter.putExtra("mainlist", true);
-                startActivity(newsletter);
-            }
-            else if (item.getTag().equals("Augmented"))
-            {
-                Intent intent = new Intent(this, AugmentedStart.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            }
-            else if (item.getTag().equals("Merchant"))
-            {
-                Intent sbb = new Intent(this, MerchantListView.class);
-                sbb.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(sbb);
-            }
-            else if (item.getTag().equals("Badges"))
-            {
-                Intent sbb = new Intent(this, BadgesList.class);
-                sbb.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(sbb);
-            }
-            else if (item.getTag().equals("Contact Us"))
-            {
-                Intent sbb = new Intent(this, ContactusDetailView.class);
-                sbb.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(sbb);
-            }
-            else if (item.getTag().equals("Term & Condition"))
-            {
-                Intent sbb = new Intent(this, TncView.class);
-                sbb.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(sbb);
+    public void onNavigationDrawerItemSelected(int position, DrawerItem item) {
 
-            }
-            else if(item.getTag().equals("htmlName"))
-            {
-                Intent dynamicTnc = new Intent(this, DynamicTnC.class);
-                dynamicTnc.putExtra("htmlId", item.getTag().toString());
-                dynamicTnc.putExtra("htmlName", item.getTitle().toString());
-                dynamicTnc.putExtra("htmlPath", item.getPath().toString());
-                dynamicTnc.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(dynamicTnc);
-            }
-
-            else if (item.getTag().equals("HEADER"))
-            {
-            }
-            else
-            {
-                Intent department = new Intent(this, DepartmentView.class);
-                department.putExtra("id", item.getTag().toString());
-                department.putExtra("departmentLvl", Integer.toString(item.getLvl()));
-                department.putExtra("name", item.getTitle().toString());
-                Log.e("departmentName", item.getTitle().toString());
-                department.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(department);
-            }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }*/
-
-    }
-
-    public void restoreActionBar()
-    {
-        ActionBar actionBar = getActionBar();
-        // actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        // actionBar.setDisplayShowTitleEnabled(true);
-        // actionBar.setTitle(mTitle);
     }
 
     @Override
@@ -222,18 +118,6 @@ public class MainFragmentActivity extends BaseFragmentActivity implements Naviga
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        /*int id = item.getItemId();
-        switch (id)
-        {
-            case R.id.action_settings:
-                break;
-
-            default:
-                break;
-        }*/
         return super.onOptionsItemSelected(item);
     }
 

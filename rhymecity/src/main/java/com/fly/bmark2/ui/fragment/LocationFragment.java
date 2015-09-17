@@ -1,5 +1,8 @@
 package com.fly.bmark2.ui.fragment;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fly.bmark2.R;
+import com.fly.bmark2.augmented3.MainActivity;
 import com.fly.bmark2.base.AQuery;
 import com.fly.bmark2.base.BaseFragment;
 import com.fly.bmark2.utils.Utils;
@@ -47,7 +51,7 @@ public class LocationFragment extends BaseFragment
     Boolean firstTriggered = true;
     Double randLatitude,randLongitude;
     ClusterManager<MyItem> mClusterManager;
-
+    SQLiteDatabase db;
     //static com.google.android.maps.GeoPoint geo;
 
 
@@ -73,7 +77,6 @@ public class LocationFragment extends BaseFragment
         aq = new AQuery(getActivity(), v);
         // Gets the MapView from the XML layout and creates it
 
-
         mapView = (MapView) v.findViewById(R.id.mapview);
         mapView.onCreate(savedInstanceState);
 
@@ -87,28 +90,48 @@ public class LocationFragment extends BaseFragment
         aq.id(R.id.navigationIcon).clicked(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Log.e("Clicked", "TRUE");
                 String URL = "http://maps.google.com/maps?saddr=&daddr=" + latitude + "," + longitude + "&z=1";
                 Utils.launchNavigator(getActivity(), URL);
-
             }
         });
 
-        aq.id(R.id.imgWeather).clicked(new View.OnClickListener() {
+        aq.id(R.id.imgAR).clicked(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                aq.id(R.id.detailBlock).visible();
+                //Intent loginPage = new Intent(getActivity(), SeatSelectionActivity.class);
+                Intent AR = new Intent(getActivity(), MainActivity.class);
+                getActivity().startActivity(AR);
+                getActivity().finish();
             }
         });
 
-        aq.id(R.id.clsBtn).clicked(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                aq.id(R.id.detailBlock).gone();
-            }
-        });
+        mClusterManager = new ClusterManager<MyItem>(getActivity(), map);
+        mClusterManager.setRenderer(new RenderCluster(getActivity(), map, mClusterManager));
 
+        db = createDBconnection(getActivity());
+        Cursor c=db.rawQuery("SELECT * FROM latlong",null);
+
+
+        if (c .moveToFirst()) {
+
+            while (c.isAfterLast() == false) {
+                String latLong = c.getString(c.getColumnIndex("latlongitude"));
+                String refID = c.getString(c.getColumnIndex("refId"));
+
+                String foo = latLong;
+                String[] split = foo.split(",");
+                randLatitude = Double.parseDouble(split[0]);
+                randLongitude  = Double.parseDouble(split[1]);
+
+                MyItem offsetItem = new MyItem(randLatitude, randLongitude);
+                offsetItem.setLatitude(randLatitude);
+                offsetItem.setLongitude(randLongitude);
+                offsetItem.setRefID(refID);
+                mClusterManager.addItem(offsetItem);
+
+                c.moveToNext();
+            }
+        }
 
         return v;
     }
@@ -131,7 +154,8 @@ public class LocationFragment extends BaseFragment
 
         if( firstTriggered == true) {
 
-          Log.e("firstTriggered","SEKALI");
+
+
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(passLatitude), Double.parseDouble(passLongitude)), 12);
             map.animateCamera(cameraUpdate);
 
@@ -142,41 +166,28 @@ public class LocationFragment extends BaseFragment
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
             marker.showInfoWindow();
 
-            mClusterManager = new ClusterManager<MyItem>(getActivity(),map);
-            mClusterManager.setRenderer(new RenderCluster(getActivity(),map, mClusterManager));
-
 
             mClusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<MyItem>() {
-                        @Override
-                        public boolean onClusterItemClick(MyItem item) {
+                @Override
+                public boolean onClusterItemClick(MyItem item) {
 
-                            String latitude = Double.toString(item.getLatitude());
-                            String longitude = Double.toString(item.getLongitude());
+                    aq.id(R.id.txtAddress).text(item.getRefID());
 
-                            Log.e("latitude",latitude);
-                            Log.e("longitude",longitude);
+                    latitude = Double.toString(item.getLatitude());
+                    longitude = Double.toString(item.getLongitude());
 
-                            aq.id(R.id.txtAddress).text(item.getTitle());
+                    return false;
 
-                            return false;
+                }
 
-                        };
-                    });
+                ;
+            });
 
+           // insertData();
             map.setOnCameraChangeListener(mClusterManager);
             map.setOnMarkerClickListener(mClusterManager);
 
-            //Nearest Location (Whatever that suitable) Sample
-            for(int x = 0 ; x < 5 ; x++)
-            {
-                randLatitude = Double.parseDouble(passLatitude) + Math.random()/5-0.1;
-                randLongitude =  Double.parseDouble(passLongitude) + Math.random()/5-0.1;
 
-                MyItem offsetItem = new MyItem(randLatitude, randLongitude);
-                offsetItem.setLatitude(randLatitude);
-                offsetItem .setLongitude(randLongitude);
-                mClusterManager.addItem(offsetItem);
-            }
 
             firstTriggered = false;
         }
@@ -184,6 +195,32 @@ public class LocationFragment extends BaseFragment
         {
             Log.e("Task Triggered", "True");
         }
+    }
+
+    public void insertData()
+    {
+        //Nearest Location (Whatever that suitable) Sample
+        Log.e("randLongitude","xxxxxxxxxx");
+
+            Cursor c=db.rawQuery("SELECT * FROM latlong",null);
+            if (c .moveToFirst()) {
+
+                while (c.isAfterLast() == false) {
+                    randLatitude = Double.parseDouble(c.getString(c.getColumnIndex("latlongitude")));
+                    randLongitude = Double.parseDouble(c.getString(c.getColumnIndex("refId")));
+
+                    MyItem offsetItem = new MyItem(randLatitude, randLongitude);
+                    offsetItem.setLatitude(randLatitude);
+                    offsetItem .setLongitude(randLongitude);
+                    mClusterManager.addItem(offsetItem);
+
+                    Log.e("randLatitude",Double.toString(randLatitude));
+                    Log.e("randLongitude",Double.toString(randLongitude));
+
+                    c.moveToNext();
+                }
+            }
+
     }
 
 

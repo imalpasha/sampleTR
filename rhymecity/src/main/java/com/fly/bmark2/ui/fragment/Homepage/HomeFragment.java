@@ -1,7 +1,7 @@
 package com.fly.bmark2.ui.fragment.Homepage;
 
-import android.app.Fragment;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import com.fly.bmark2.R;
 import com.fly.bmark2.augmented3.MainActivity;
+import com.fly.bmark2.base.BaseFragment;
 import com.fly.bmark2.ui.activity.ContactusLocationView;
 import com.fly.bmark2.ui.activity.FragmentContainerActivity;
 import com.fly.bmark2.ui.presenter.HomePresenter;
@@ -17,7 +18,7 @@ import com.fly.bmark2.ui.presenter.HomePresenter;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class HomeFragment extends Fragment implements HomePresenter.HomeView {
+public class HomeFragment extends BaseFragment implements HomePresenter.HomeView {
 
    // @Inject
    /// HomePresenter presenter;
@@ -25,8 +26,8 @@ public class HomeFragment extends Fragment implements HomePresenter.HomeView {
     @InjectView(R.id.homeBookFlight) LinearLayout bookFlight;
     @InjectView(R.id.manageFlight) LinearLayout manageFlight;
 
-    //private ProgressBar progressIndicator;
     private int fragmentContainerId;
+    private SQLiteDatabase db;
 
     public static HomeFragment newInstance() {
 
@@ -56,7 +57,6 @@ public class HomeFragment extends Fragment implements HomePresenter.HomeView {
                 goToMap();
             }
         });
-
         manageFlight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,7 +64,23 @@ public class HomeFragment extends Fragment implements HomePresenter.HomeView {
             }
         });
 
+        /*db = createDBconnection(getActivity());
+        Cursor c=db.rawQuery("SELECT * FROM latlong",null);
 
+        Log.e("COUNNNNNNNT", Integer.toString(c.getCount()));
+
+        if (c .moveToFirst()) {
+
+            while (c.isAfterLast() == false) {
+                String xx = c.getString(c.getColumnIndex("latlongitude"));
+                String yy = c.getString(c.getColumnIndex("refId"));
+
+                Log.e("xxxx", xx);
+                Log.e("yyyy", yy);
+
+                c.moveToNext();
+            }
+        }*/
         return view;
     }
 

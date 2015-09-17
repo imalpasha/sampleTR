@@ -25,6 +25,8 @@ public class FireFlyApplication extends Application {
         super.onCreate();
         buildObjectGraphAndInject();
         createApiRequestHandler();
+        //AppData.startAllServices(this);
+        //FlowManager.init(this);
     }
 
     private void buildObjectGraphAndInject() {

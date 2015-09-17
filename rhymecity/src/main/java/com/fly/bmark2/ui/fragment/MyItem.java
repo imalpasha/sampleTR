@@ -9,6 +9,9 @@ public class MyItem implements ClusterItem {
     private Double latitude;
     private Double longitude;
 
+
+    private String refID;
+
     public MyItem(double lat, double lng) {
         mPosition = new LatLng(lat, lng);
     }
@@ -37,6 +40,14 @@ public class MyItem implements ClusterItem {
 
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
+    }
+
+    public String getRefID() {
+        return refID;
+    }
+
+    public void setRefID(String refID) {
+        this.refID = refID;
     }
 
 

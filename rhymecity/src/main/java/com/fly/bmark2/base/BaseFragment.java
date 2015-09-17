@@ -3,6 +3,7 @@ package com.fly.bmark2.base;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -18,52 +19,18 @@ public class BaseFragment extends SmartFragment {
 	protected com.fly.bmark2.base.AQuery aq;
 	protected SharedPreferences pref;
 
-	/*public static void showConnectionError(String test, Activity activity)
+	public static SQLiteDatabase createDBconnection(Activity activity)
 	{
-        if(activity != null) {
-            try {
-                TextView txtUTC = (TextView) activity.findViewById(R.id.txtUTC);
-                txtUTC.setText(test);
+		SQLiteDatabase db = null;
 
-                FrameLayout mainFrame = (FrameLayout) activity.findViewById(R.id.utc_container);
-                mainFrame.setVisibility(View.VISIBLE);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+		if(activity != null) {
+			db = activity.openOrCreateDatabase("GeoLocation", Context.MODE_PRIVATE, null);
+			//db.execSQL("CREATE TABLE IF NOT EXISTS latlong(latlongitude double,refId varchar);");
         }
+
+		return db;
 	}
 
-	public static void baseInitiateLoading(Activity activity)
-	{
-        Log.e("Initiate Loading","TRUE");
-		try
-		{
-			final FrameLayout mainFrame = (FrameLayout) activity.findViewById(R.id.container);
-			mainFrame.setVisibility(View.VISIBLE);
-
-			RelativeLayout mainFrameRelative = (RelativeLayout) activity.findViewById(R.id.mainFrameRelative);
-			mainFrameRelative.setVisibility(View.VISIBLE);
-			mainFrame.bringChildToFront(mainFrameRelative);
-			mainFrame.invalidate();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-
-	public static void baseRemoveLoading(Activity activity)
-	{
-		try
-		{
-			RelativeLayout mainFrameRelative = (RelativeLayout) activity.findViewById(R.id.mainFrameRelative);
-			mainFrameRelative.setVisibility(View.GONE);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-	}*/
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

@@ -1,15 +1,13 @@
 package com.fly.bmark2.ui.activity.Homepage;
 
 import android.app.FragmentManager;
+import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.fly.bmark2.MainFragmentActivity;
 import com.fly.bmark2.R;
 import com.fly.bmark2.ui.activity.FragmentContainerActivity;
 import com.fly.bmark2.ui.fragment.Homepage.HomeFragment;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import butterknife.ButterKnife;
 
@@ -28,22 +26,13 @@ public class HomeActivity extends MainFragmentActivity implements FragmentContai
         super.onCreate(savedInstanceState);
         ButterKnife.inject(this);
 
+        MainFragmentActivity.db = openOrCreateDatabase("GeoLocation", Context.MODE_PRIVATE, null);
+
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().add(R.id.main_activity_fragment_container, HomeFragment.newInstance()).commit();
-
         hideTitle();
 
-        int checkGooglePlayServices =    GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-        if (checkGooglePlayServices != ConnectionResult.SUCCESS) {
-
-                    /* Returns status code indicating whether there was an error.
-                    Can be one of following in ConnectionResult: SUCCESS, SERVICE_MISSING, SERVICE_VERSION_UPDATE_REQUIRED, SERVICE_DISABLED, SERVICE_INVALID.
-                    */
-            GooglePlayServicesUtil.getErrorDialog(checkGooglePlayServices,this, 1122).show();
-        }
-        else {
-            Log.e("CONNECTION",Integer.toString(checkGooglePlayServices));
-        }
+       // FlowManager.init(this);
     }
 
     @Override
