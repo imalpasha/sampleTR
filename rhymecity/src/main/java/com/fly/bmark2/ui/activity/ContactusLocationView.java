@@ -14,14 +14,15 @@ import butterknife.ButterKnife;
 public class ContactusLocationView extends MainFragmentActivity implements FragmentContainerActivity {
 
 	private FragmentManager fragmentManager;
-
+	private String departmentRefId;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		ButterKnife.inject(this);
 
+
 		FragmentManager fragmentManager = getFragmentManager();
-		fragmentManager.beginTransaction().add(R.id.main_activity_fragment_container, LocationFragment.newInstance()).commit();
+		fragmentManager.beginTransaction().add(R.id.main_activity_fragment_container, LocationFragment.newInstance(getIntent().getExtras())).commit();
 
 	}
 

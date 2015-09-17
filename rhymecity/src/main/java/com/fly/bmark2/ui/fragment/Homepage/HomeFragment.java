@@ -89,7 +89,7 @@ public class HomeFragment extends BaseFragment implements HomePresenter.HomeView
     {
        //Intent loginPage = new Intent(getActivity(), SeatSelectionActivity.class);
        Intent loginPage = new Intent(getActivity(), ContactusLocationView.class);
-
+        loginPage.putExtra("id","1");
         getActivity().startActivity(loginPage);
     }
 

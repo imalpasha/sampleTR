@@ -55,10 +55,10 @@ public class LocationFragment extends BaseFragment
     //static com.google.android.maps.GeoPoint geo;
 
 
-    public static LocationFragment newInstance()
+    public static LocationFragment newInstance(Bundle getData)
     {
         LocationFragment fragment = new LocationFragment();
-        Bundle args = new Bundle();
+        Bundle args = new Bundle(getData);
         fragment.setArguments(args);
         return fragment;
     }
@@ -76,6 +76,11 @@ public class LocationFragment extends BaseFragment
 
         aq = new AQuery(getActivity(), v);
         // Gets the MapView from the XML layout and creates it
+
+
+        Bundle actID = getArguments();
+        String id = actID.getString("id");
+        Log.e("id",id);
 
         mapView = (MapView) v.findViewById(R.id.mapview);
         mapView.onCreate(savedInstanceState);
