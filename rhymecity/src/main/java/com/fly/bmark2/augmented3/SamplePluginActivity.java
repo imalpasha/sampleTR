@@ -67,7 +67,7 @@ public class SamplePluginActivity extends AbstractArchitectCamActivity {
 			public void onCompassAccuracyChanged( int accuracy ) {
 				/* UNRELIABLE = 0, LOW = 1, MEDIUM = 2, HIGH = 3 */
 				if ( accuracy < SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM && SamplePluginActivity.this != null && !SamplePluginActivity.this.isFinishing() && System.currentTimeMillis() - SamplePluginActivity.this.lastCalibrationToastShownTimeMillis > 5 * 1000) {
-					Toast.makeText(SamplePluginActivity.this, R.string.compass_accuracy_low, Toast.LENGTH_LONG).show();
+					Toast.makeText(SamplePluginActivity.this, "Compass Accuracy Low", Toast.LENGTH_LONG).show();
 					SamplePluginActivity.this.lastCalibrationToastShownTimeMillis = System.currentTimeMillis();
 				}
 			}

@@ -55,7 +55,7 @@ public class SampleCamFragment extends AbstractArchitectCamFragmentV4{
 			public void onCompassAccuracyChanged( int accuracy ) {
 				/* UNRELIABLE = 0, LOW = 1, MEDIUM = 2, HIGH = 3 */
 				if ( accuracy < SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM && getActivity() != null && !getActivity().isFinishing()  && System.currentTimeMillis() - SampleCamFragment.this.lastCalibrationToastShownTimeMillis > 5 * 1000) {
-					Toast.makeText(getActivity(), R.string.compass_accuracy_low, Toast.LENGTH_LONG).show();
+					Toast.makeText(getActivity(), "Compas Accuracy Low", Toast.LENGTH_LONG).show();
 				}
 			}
 		};

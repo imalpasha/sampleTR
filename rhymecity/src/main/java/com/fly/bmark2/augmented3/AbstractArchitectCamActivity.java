@@ -18,7 +18,6 @@ import com.wikitude.architect.ArchitectView.ArchitectUrlListener;
 import com.wikitude.architect.ArchitectView.SensorAccuracyChangeListener;
 import com.wikitude.architect.StartupConfiguration;
 import com.wikitude.architect.StartupConfiguration.CameraPosition;
-import com.fly.bmark2.R;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -335,7 +334,7 @@ public abstract class AbstractArchitectCamActivity extends Activity implements A
 							
 							@Override
 							public void run() {
-								Toast.makeText(AbstractArchitectCamActivity.this, R.string.location_fetching, Toast.LENGTH_SHORT).show();
+								Toast.makeText(AbstractArchitectCamActivity.this, "Fetching", Toast.LENGTH_SHORT).show();
 							}
 						});
 			

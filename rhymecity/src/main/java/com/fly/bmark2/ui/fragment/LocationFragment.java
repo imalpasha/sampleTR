@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.ClusterManager;
 import com.trnql.smart.location.AddressEntry;
 import com.trnql.smart.location.LocationEntry;
+import com.trnql.smart.weather.WeatherEntry;
 
 import butterknife.InjectView;
 
@@ -79,14 +80,15 @@ public class LocationFragment extends BaseFragment
 
 
         Bundle actID = getArguments();
-        String id = actID.getString("id");
-        Log.e("id",id);
+        String tag = actID.getString("tag");
+        Log.e("tag", tag);
 
         mapView = (MapView) v.findViewById(R.id.mapview);
         mapView.onCreate(savedInstanceState);
 
         // Gets to GoogleMap from the MapView and does initialization stuff
         map = mapView.getMap();
+        map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         map.getUiSettings().setMyLocationButtonEnabled(false);
         map.getUiSettings().setZoomControlsEnabled(false);
         MapsInitializer.initialize(getActivity());
@@ -114,14 +116,22 @@ public class LocationFragment extends BaseFragment
         mClusterManager.setRenderer(new RenderCluster(getActivity(), map, mClusterManager));
 
         db = createDBconnection(getActivity());
-        Cursor c=db.rawQuery("SELECT * FROM latlong",null);
 
+        String[] args={tag};
+        Cursor c=db.rawQuery("SELECT * FROM latlong2 WHERE tag = ?", args);
 
-        if (c .moveToFirst()) {
+        //Cursor c=db.rawQuery("SELECT * FROM latlong2", null);
+        //Cursor c=db.rawQuery("SELECT * FROM latlong2 WHERE tag = "+tag+"", null);
+
+        if (c.moveToFirst()) {
 
             while (c.isAfterLast() == false) {
+
+
                 String latLong = c.getString(c.getColumnIndex("latlongitude"));
-                String refID = c.getString(c.getColumnIndex("refId"));
+                String refID = c.getString(c.getColumnIndex("tag"));
+
+                Log.e(refID,latLong);
 
                 String foo = latLong;
                 String[] split = foo.split(",");
@@ -150,6 +160,8 @@ public class LocationFragment extends BaseFragment
         triggerMap(latitude, longitude);
     }
 
+
+
     public void triggerMap(String passLatitude,String passLongitude)
     {
 
@@ -161,7 +173,7 @@ public class LocationFragment extends BaseFragment
 
 
 
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(passLatitude), Double.parseDouble(passLongitude)), 12);
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(passLatitude), Double.parseDouble(passLongitude)), 9);
             map.animateCamera(cameraUpdate);
 
             //Current Location
@@ -193,7 +205,6 @@ public class LocationFragment extends BaseFragment
             map.setOnMarkerClickListener(mClusterManager);
 
 
-
             firstTriggered = false;
         }
         else
@@ -205,7 +216,6 @@ public class LocationFragment extends BaseFragment
     public void insertData()
     {
         //Nearest Location (Whatever that suitable) Sample
-        Log.e("randLongitude","xxxxxxxxxx");
 
             Cursor c=db.rawQuery("SELECT * FROM latlong",null);
             if (c .moveToFirst()) {
@@ -233,6 +243,14 @@ public class LocationFragment extends BaseFragment
     protected void smartAddressChange(AddressEntry address) {
         String addr_string = address.toString();
         aq.id(R.id.txtAddress).text(addr_string);
+    }
+
+    @Override
+    protected void smartWeatherChange(WeatherEntry weather) {
+
+        // aq.id(R.id.weather1).text(weather.getFeelsLikeAsString());
+        aq.id(R.id.weather1).text(weather.getCurrentConditionsDescriptionAsString());
+
     }
 
     @Override

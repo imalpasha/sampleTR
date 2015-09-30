@@ -24,18 +24,6 @@ public class BaseFragmentActivity extends SherlockFragmentActivity {
         super.onCreate(savedInstanceState);
         aq = new com.fly.bmark2.base.AQuery(this);
 
-
-       /*if ((getApplicationContext().getResources().getConfiguration().screenLayout &
-                android.content.res.Configuration.SCREENLAYOUT_SIZE_MASK) >= android.content.res.Configuration.SCREENLAYOUT_SIZE_LARGE){
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            getApplicationContext().getResources().getConfiguration().orientation = 2;
-
-        }else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            getApplicationContext().getResources().getConfiguration().orientation = 1;
-        }*/
-
-
         try
         {
             ActionBar actionBar = getSupportActionBar();

@@ -346,43 +346,9 @@ public class Utils {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    public static String getFullMonth(Activity activity, String month) {
-        String thisMonth = month;
-        String subMonth = null;
-        String monthName = null;
-        String[] month_name = activity.getResources().getStringArray(R.array.full_month);
-        for (int i = 0; i < month_name.length; i++) {
 
-            if (Integer.parseInt(thisMonth) < 10) {
-                subMonth = thisMonth.substring(1).trim();
-            } else {
-                subMonth = month;
-            }
-            if (Integer.parseInt(subMonth) == i + 1) {
-                monthName = month_name[i];
-            }
-        }
-        return monthName;
-    }
 
-    public static String get3alphabetMonth(Activity activity, String month) {
-        String thisMonth = month;
-        String subMonth = null;
-        String monthName = null;
-        String[] month_name = activity.getResources().getStringArray(R.array.month);
-        for (int i = 0; i < month_name.length; i++) {
 
-            if (Integer.parseInt(thisMonth) < 10) {
-                subMonth = thisMonth.substring(1).trim();
-            } else {
-                subMonth = month;
-            }
-            if (Integer.parseInt(subMonth) == i + 1) {
-                monthName = month_name[i];
-            }
-        }
-        return monthName;
-    }
 
     public static int getNDate() {
         Calendar calendar = Calendar.getInstance();
