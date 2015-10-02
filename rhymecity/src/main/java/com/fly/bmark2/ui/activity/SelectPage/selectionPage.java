@@ -8,7 +8,7 @@ import android.util.Log;
 import com.fly.bmark2.MainFragmentActivity;
 import com.fly.bmark2.R;
 import com.fly.bmark2.ui.activity.FragmentContainerActivity;
-import com.fly.bmark2.ui.fragment.selectFragment;
+import com.fly.bmark2.ui.fragment.SelectFragment;
 //import android.view.WindowManager;
 
 public class selectionPage extends MainFragmentActivity implements FragmentContainerActivity {
@@ -27,7 +27,7 @@ public class selectionPage extends MainFragmentActivity implements FragmentConta
         }
 
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.main_activity_fragment_container, selectFragment.newInstance(getBundle)).commit();
+        fragmentManager.beginTransaction().add(R.id.main_activity_fragment_container, SelectFragment.newInstance(getBundle)).commit();
         hideTitle();
 
     }

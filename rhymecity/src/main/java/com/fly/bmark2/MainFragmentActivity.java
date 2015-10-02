@@ -2,6 +2,7 @@ package com.fly.bmark2;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
@@ -41,24 +42,26 @@ public class MainFragmentActivity extends BaseFragmentActivity
         /*Create Table - Generate dummy data - nearest location*/
         db = openOrCreateDatabase("GeoLocation", Context.MODE_PRIVATE, null);
 
-        //db.execSQL("DROP TABLE latlong2");
+        //db.execSQL("DROP TABLE latlong3");
         //db.execSQL("DROP TABLE state");
         ///db.execSQL("DROP TABLE daerah");
         //db.execSQL("DROP TABLE bml");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS latlong2(latlongitude double,tag varchar)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS latlong3(latlongitude double,tag varchar,placename varchar)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS version(currentVersion varchar,dateUpdate varchar)");
         db.execSQL("CREATE TABLE IF NOT EXISTS state(stateName varchar,stateID varchar,level varchar)");
         db.execSQL("CREATE TABLE IF NOT EXISTS daerah(daerahName varchar,daerahID varchar,stateID varchar,level varchar)");
         db.execSQL("CREATE TABLE IF NOT EXISTS bml(bmlName varchar,daerahID varchar,bmlID varchar,level varchar)");
 
-        db.execSQL("DELETE FROM state");
-        db.execSQL("DELETE FROM daerah");
-        db.execSQL("DELETE FROM bml");
+       // db.execSQL("DELETE FROM state");
+      //  db.execSQL("DELETE FROM daerah");
+      //  db.execSQL("DELETE FROM bml");
 
-        String[] myStrings = { "CYCLING", "DESERT", "DINNER","LUNCH","BREAKFAST"};
+       /* String[] myStrings = { "CYCLING", "DESERT", "DINNER","LUNCH","BREAKFAST"};
         String[] myState = { "SELANGOR", "KELANTAN", "JOHOR","KEDAI","PAHANG"};
         String[] myDaerah = { "KLANG", "KAPAR", "KULIM"};
-        String[] myBM = { "PA1", "PA2", "PA3"};
+        String[] myBM = { "PA1", "PA2", "PA3"}; */
 
 
         //Insert State
@@ -87,14 +90,25 @@ public class MainFragmentActivity extends BaseFragmentActivity
 
     }
 
-    public static void insertRecord(String latlong,String refId) {
+    public static void insertRecord(String latlong,String refId,String placename) {
 
         ContentValues values = new ContentValues();
 
         values.put("latlongitude", latlong);
         values.put("tag", refId);
-        db.insert("latlong2", null, values);
+        values.put("placename", placename);
+        db.insert("latlong3", null, values);
     }
+
+    public static void insertVersion(String version,String date) {
+
+        ContentValues values = new ContentValues();
+
+        values.put("currentVersion", version);
+        values.put("dateUpdate", date);
+        db.insert("version", null, values);
+    }
+
 
     public void insertState(String state,String id) {
 
@@ -128,6 +142,24 @@ public class MainFragmentActivity extends BaseFragmentActivity
         values.put("bmlID", bmlId);
         values.put("level", "3");
         db.insert("bml", null, values);
+    }
+
+    public static String getVersion() {
+
+        ContentValues values = new ContentValues();
+        values.put("currentVersion", "3.4");
+        db.insert("version", null, values);
+
+        String version = null;
+
+        Cursor c=db.rawQuery("SELECT * FROM version",null);
+        if (c .moveToFirst()) {
+            while (c.isAfterLast() == false) {
+                version = c.getString(c.getColumnIndex("currentVersion"));
+                c.moveToNext();
+            }
+        }
+        return version;
     }
 
     @Override

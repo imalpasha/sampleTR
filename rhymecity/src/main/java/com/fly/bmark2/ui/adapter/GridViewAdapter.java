@@ -67,7 +67,7 @@ public class GridViewAdapter extends ArrayAdapter<Integer> {
             holder = new ViewHolder();
 
             LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-           if(act == "grid"){
+            if(act == "grid"){
                convertView = vi.inflate(R.layout.grid_in, parent, false);
             }else{
                 convertView = vi.inflate(R.layout.listview_in, parent, false);
@@ -75,8 +75,8 @@ public class GridViewAdapter extends ArrayAdapter<Integer> {
 
             aq.recycle(convertView);
 
-            holder.selectionName = aq.id(R.id.txtImg).getTextView();
-            holder.img = aq.id(R.id.txtAct).getImageView();
+            holder.selectionName = aq.id(R.id.txtAct).getTextView();
+            holder.img = aq.id(R.id.txtImg).getImageView();
 
             convertView.setTag(holder);
 
@@ -96,25 +96,32 @@ public class GridViewAdapter extends ArrayAdapter<Integer> {
                 case 0:
                     imageResId = R.drawable.breakfast;
                     aq.id(holder.selectionName).text("BreakFast");
+                    holder.selectionName.setTag("BreakFast");
+
                     break;
                 case 1:
                     imageResId = R.drawable.lunch;
                     aq.id(holder.selectionName).text("Lunch");
+                    holder.selectionName.setTag("Lunch");
 
                     break;
                 case 2:
                     imageResId = R.drawable.dinner;
                     aq.id(holder.selectionName).text("Dinner");
+                    holder.selectionName.setTag("Dinner");
 
                     break;
                 case 3:
                     imageResId = R.drawable.dessert;
                     aq.id(holder.selectionName).text("Dessert");
+                    holder.selectionName.setTag("Dessert");
 
                     break;
                 default:
                     imageResId = R.drawable.cycling;
                     aq.id(holder.selectionName).text("Cycling");
+                    holder.selectionName.setTag("Cycling");
+
             }
 
             Bitmap bitmap = getBitmapFromMemCache(imageResId);
@@ -122,7 +129,7 @@ public class GridViewAdapter extends ArrayAdapter<Integer> {
                 bitmap = BitmapFactory.decodeResource(mContext.getResources(), imageResId);
                 addBitmapToMemoryCache(imageResId, bitmap);
             }
-            aq.id(holder.selectionName).image(bitmap);
+            aq.id(holder.img).image(bitmap);
         }
 
         return convertView;

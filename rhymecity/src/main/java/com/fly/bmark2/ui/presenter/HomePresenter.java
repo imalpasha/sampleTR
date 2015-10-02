@@ -1,12 +1,20 @@
 package com.fly.bmark2.ui.presenter;
 
-import com.fly.bmark2.rhymes.RhymesRequestedEvent;
+import android.util.Log;
+
+import com.fly.bmark2.api.obj.tryObj;
+import com.fly.bmark2.retroObj.GetVersion;
+import com.fly.bmark2.retroObj.RhymesRequestedEvent;
+import com.fly.bmark2.retroObj.RhymesSuccessEvent;
+import com.fly.bmark2.retroObj.UpdateDB;
 import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 public class HomePresenter {
 
     public interface HomeView {
 
+        void saveIntoDb(tryObj obj);
     }
 
     private final HomeView view;
@@ -29,35 +37,31 @@ public class HomePresenter {
         bus.post(new RhymesRequestedEvent(word));
     }
 
-    /*@Subscribe
-    public void onRhymesSuccess(RhymesSuccessEvent event) {
-        view.hideLoadingIndicator();
-
-        List<String> rhymeList = event.getRhymes();
-        if (rhymeList.isEmpty()) {
-            view.showNoRhymesFoundError(event.getWord());
-            Log.e("FAILED","Y");
-        } else {
-            view.goToRhymesViewWithRhymes(event.getWord(), rhymeList);
-            Log.e("FAILED","N");
-
-        }
-    }*/
-
-   /* @Subscribe
-    public void onUserSuccess(UserRetrieveSuccess event) {
-        view.hideLoadingIndicator();
+    @Subscribe
+    public void onUserSuccess(UpdateDB event) {
 
         tryObj obj = event.getUserObj();
-        view.displayUserInfo(obj);
-        Log.e("UserName",obj.getLogin());
+        view.saveIntoDb(obj);
+
+    }
+
+    //bus.post(new UserRetrieveSuccess(userDetailResponse));
+
+    public void onRequestVersion() {
+        bus.post(new GetVersion());
+
+    }
+
+    @Subscribe
+    public void onRequestGoogleData(RhymesSuccessEvent event) {
+
+
+            Log.e("Y","Y");
+
     }
 
 
 
-    @Subscribe
-    public void onRhymesFailure(RhymesFailureEvent event) {
-        view.hideLoadingIndicator();
-        view.showRetrieveRhymesError();
-    }*/
+
+
 }

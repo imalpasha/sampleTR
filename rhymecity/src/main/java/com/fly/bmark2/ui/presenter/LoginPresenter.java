@@ -1,6 +1,6 @@
 package com.fly.bmark2.ui.presenter;
 
-import com.fly.bmark2.rhymes.RhymesRequestedEvent;
+import com.fly.bmark2.retroObj.RhymesRequestedEvent;
 import com.squareup.otto.Bus;
 
 public class LoginPresenter {

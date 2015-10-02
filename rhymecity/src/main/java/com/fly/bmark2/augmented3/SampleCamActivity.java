@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.widget.Toast;
 
 import com.fly.bmark2.R;
+import com.fly.bmark2.ui.activity.LandingPage.LandingPage;
 import com.fly.bmark2.utils.App;
 import com.wikitude.architect.ArchitectView.ArchitectUrlListener;
 import com.wikitude.architect.ArchitectView.SensorAccuracyChangeListener;
@@ -154,5 +155,14 @@ public class SampleCamActivity extends AbstractArchitectCamActivity {
 	@Override
 	protected CameraPosition getCameraPosition() {
 		return CameraPosition.DEFAULT;
+	}
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+
+		Intent back = new Intent(this, LandingPage.class);
+		this.startActivity(back);
+		this.finish();
 	}
 }

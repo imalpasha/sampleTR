@@ -6,9 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.fly.bmark2.R;
 import com.wikitude.architect.ArchitectView;
@@ -57,7 +55,7 @@ public class MainActivity extends ListActivity {
 		irSamples = getListFrom("samples/samples_ir.lst");
 		geoSamples = getListFrom("samples/samples_geo.lst");
 
-		this.setContentView( this.getContentViewId() );
+		//this.setContentView( this.getContentViewId() );
 		
 		// ensure to clean cache when it is no longer required
 		MainActivity.deleteDirectoryContent ( ArchitectView.getCacheDirectoryAbsoluteFilePath(this) );
@@ -66,10 +64,10 @@ public class MainActivity extends ListActivity {
 		final String[] values = this.getListLabels();
 
 		// use default list-ArrayAdapter */
-		this.setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, values));
-		TextView t = (TextView) findViewById(R.id.textView1);
-		String versionInfo = "SDK build date: " + ArchitectView.getBuildProperty("build.date");
-		t.setText(versionInfo);
+		//this.setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, values));
+		//TextView t = (TextView) findViewById(R.id.textView1);
+		//String versionInfo = "SDK build date: " + ArchitectView.getBuildProperty("build.date");
+		//t.setText(versionInfo);
 
 
 		final Intent intent = new Intent(this,SampleCamActivity.class );

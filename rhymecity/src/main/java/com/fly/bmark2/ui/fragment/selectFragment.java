@@ -15,12 +15,11 @@ import android.widget.ListView;
 import com.fly.bmark2.R;
 import com.fly.bmark2.augmented3.MainActivity;
 import com.fly.bmark2.base.BaseFragment;
-import com.fly.bmark2.ui.activity.LocationPage.ContactusLocationView;
 import com.fly.bmark2.ui.activity.FragmentContainerActivity;
+import com.fly.bmark2.ui.activity.LocationPage.ContactusLocationView;
 import com.fly.bmark2.ui.activity.SelectPage.selectionPage;
 import com.fly.bmark2.ui.adapter.SelectionAdapter;
 import com.fly.bmark2.ui.obj.Selection;
-import com.fly.bmark2.ui.presenter.HomePresenter;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 
-public class selectFragment extends BaseFragment implements HomePresenter.HomeView {
+public class SelectFragment extends BaseFragment{
 
     private int fragmentContainerId;
     private SQLiteDatabase db;
@@ -40,9 +39,9 @@ public class selectFragment extends BaseFragment implements HomePresenter.HomeVi
 
 
 
-    public static selectFragment newInstance(Bundle getData) {
+    public static SelectFragment newInstance(Bundle getData) {
 
-        selectFragment fragment = new selectFragment();
+        SelectFragment fragment = new SelectFragment();
         Bundle args = new Bundle(getData);
         fragment.setArguments(args);
         return fragment;
@@ -54,8 +53,7 @@ public class selectFragment extends BaseFragment implements HomePresenter.HomeVi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-        // FireFlyApplication.get(getActivity()).createScopedGraph(new HomeModule(this)).inject(this);
+        // AppApplication.get(getActivity()).createScopedGraph(new HomeModule(this)).inject(this);
     }
 
 

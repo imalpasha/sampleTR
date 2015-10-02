@@ -1,18 +1,18 @@
 package com.fly.bmark2;
 
-import android.app.Application;
 import android.content.Context;
 
 import com.fly.bmark2.api.ApiRequestHandler;
 import com.fly.bmark2.api.ApiService;
 import com.squareup.otto.Bus;
+import com.trnql.zen.core.AppData;
 
 import javax.inject.Inject;
 
 import dagger.ObjectGraph;
 import me.mattlogan.rhymecity.Modules;
 
-public class FireFlyApplication extends Application {
+public class AppApplication extends AppData {
 
     private ObjectGraph objectGraph;
 
@@ -25,14 +25,11 @@ public class FireFlyApplication extends Application {
         super.onCreate();
         buildObjectGraphAndInject();
         createApiRequestHandler();
-        //AppData.startAllServices(this);
-        //FlowManager.init(this);
     }
 
     private void buildObjectGraphAndInject() {
         objectGraph = ObjectGraph.create(Modules.list("ASJ3wq8YnBmshFGszZZFHEntCFOUp1xhB2Sjsn4QZMpC3KV6kk"));
         objectGraph.inject(this);
-        //getString(R.string.api_key)
     }
 
     private void createApiRequestHandler() {
@@ -43,7 +40,7 @@ public class FireFlyApplication extends Application {
         return objectGraph.plus(module);
     }
 
-    public static FireFlyApplication get(Context context) {
-        return (FireFlyApplication) context.getApplicationContext();
+    public static AppApplication get(Context context) {
+        return (AppApplication) context.getApplicationContext();
     }
 }

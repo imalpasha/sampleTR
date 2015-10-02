@@ -118,7 +118,7 @@ public class LocationFragment extends BaseFragment
         db = createDBconnection(getActivity());
 
         String[] args={tag};
-        Cursor c=db.rawQuery("SELECT * FROM latlong2 WHERE tag = ?", args);
+        Cursor c=db.rawQuery("SELECT * FROM latlong3 WHERE tag = ?", args);
 
         //Cursor c=db.rawQuery("SELECT * FROM latlong2", null);
         //Cursor c=db.rawQuery("SELECT * FROM latlong2 WHERE tag = "+tag+"", null);
@@ -130,8 +130,8 @@ public class LocationFragment extends BaseFragment
 
                 String latLong = c.getString(c.getColumnIndex("latlongitude"));
                 String refID = c.getString(c.getColumnIndex("tag"));
-
-                Log.e(refID,latLong);
+                String placeName = c.getString(c.getColumnIndex("placename"));
+                Log.e(placeName,refID);
 
                 String foo = latLong;
                 String[] split = foo.split(",");
@@ -141,6 +141,8 @@ public class LocationFragment extends BaseFragment
                 MyItem offsetItem = new MyItem(randLatitude, randLongitude);
                 offsetItem.setLatitude(randLatitude);
                 offsetItem.setLongitude(randLongitude);
+                offsetItem.setPlaceName(placeName);
+                offsetItem.setTitle(refID);
                 offsetItem.setRefID(refID);
                 mClusterManager.addItem(offsetItem);
 
@@ -188,8 +190,8 @@ public class LocationFragment extends BaseFragment
                 @Override
                 public boolean onClusterItemClick(MyItem item) {
 
-                    aq.id(R.id.txtAddress).text(item.getRefID());
-
+                    aq.id(R.id.txtAddress).text(item.getPlaceName());
+                    Log.e("x", item.getPlaceName());
                     latitude = Double.toString(item.getLatitude());
                     longitude = Double.toString(item.getLongitude());
 
@@ -209,7 +211,7 @@ public class LocationFragment extends BaseFragment
         }
         else
         {
-            Log.e("Task Triggered", "True");
+            Log.e("HELLO", "MAP");
         }
     }
 

@@ -1,10 +1,10 @@
-package com.fly.bmark2.rhymes;
+package com.fly.bmark2.retroObj;
 
-public class RhymesFailureEvent {
+public class RhymesRequestedEvent {
 
     private final String word;
 
-    public RhymesFailureEvent(String word) {
+    public RhymesRequestedEvent(String word) {
         this.word = word;
     }
 

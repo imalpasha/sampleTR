@@ -10,7 +10,20 @@ public class MyItem implements ClusterItem {
     private Double longitude;
 
 
+
+    private String title;
     private String refID;
+    private String placeName;
+
+    public String getPlaceName() {
+        return placeName;
+    }
+
+    public void setPlaceName(String placeName) {
+        this.placeName = placeName;
+    }
+
+
 
     public MyItem(double lat, double lng) {
         mPosition = new LatLng(lat, lng);
@@ -21,9 +34,12 @@ public class MyItem implements ClusterItem {
         return mPosition;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public String getTitle() {
-        return "title";
+        return title;
     }
 
     public Double getLongitude() {
